@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>오늘 점심 추천 — 신도림 디큐브 주변</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg0:#f5f4f0;--bg1:#fff;--bg2:#eeede9;--bg3:#e5e4e0;
+      --sg:#eaf3de;--sf:#27500a;--sb:#639922;
+      --wg:#faeeda;--wf:#633806;
+      --dg:#fcebeb;--df:#791f1f;
+      --ig:#e6f1fb;--if:#0c447c;
+      --t1:#1a1a1a;--t2:#5f5e5a;
+      --bd:rgba(0,0,0,.11);
+      --r:10px;--rs:6px;
+      --font:-apple-system,BlinkMacSystemFont,'Pretendard','Noto Sans KR',sans-serif;
+    }
+    @media(prefers-color-scheme:dark){:root{
+      --bg0:#181816;--bg1:#1e1e1c;--bg2:#282724;--bg3:#323230;
+      --sg:#173404;--sf:#c0dd97;--wg:#412402;--wf:#fac775;
+      --dg:#501313;--df:#f7c1c1;--ig:#042c53;--if:#b5d4f4;
+      --t1:#f0efe9;--t2:#a0a09a;--bd:rgba(255,255,255,.09);
+    }}
+    body{font-family:var(--font);background:var(--bg0);color:var(--t1);min-height:100vh;padding:1.5rem 1rem 3rem}
+    .wrap{max-width:740px;margin:0 auto}
+    h1{font-size:20px;font-weight:600;margin-bottom:2px}
+    .sub{font-size:13px;color:var(--t2);margin-bottom:1.4rem}
+    .sec{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t2);margin-bottom:9px}
+    /* stats */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.4rem}
+    .stat{background:var(--bg1);border:.5px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center}
+    .stat .l{font-size:11px;color:var(--t2);margin-bottom:3px}
+    .stat .v{font-size:18px;font-weight:600}
+    /* card */
+    .card{background:var(--bg1);border:.5px solid var(--bd);border-radius:var(--r);padding:1rem 1.2rem;margin-bottom:10px}
+    .card.c1{border:2px solid var(--sb)}
+    .card.c2{border-left:3px solid var(--if)}
+    .tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:7px}
+    .t1{background:var(--sg);color:var(--sf)}.t2{background:var(--ig);color:var(--if)}.t3{background:var(--wg);color:var(--wf)}.tx{background:var(--bg2);color:var(--t2)}
+    .cn{font-size:17px;font-weight:600;margin-bottom:2px}
+    .cm{font-size:12px;color:var(--t2);margin-bottom:10px}
+    /* bars */
+    .bars{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+    .br{display:flex;align-items:center;gap:8px}
+    .bl{font-size:11px;color:var(--t2);width:48px;flex-shrink:0}
+    .bb{flex:1;height:5px;background:var(--bg2);border-radius:3px;overflow:hidden}
+    .bf{height:100%;border-radius:3px}
+    .fg{background:#639922}.fa{background:#ba7517}.fr{background:#d94545}
+    .bn{font-size:11px;color:var(--t2);white-space:nowrap}
+    /* badges */
+    .bads{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+    .b{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px}
+    .bg{background:var(--sg);color:var(--sf)}.ba{background:var(--wg);color:var(--wf)}.bd2{background:var(--dg);color:var(--df)}.bi{background:var(--ig);color:var(--if)}
+    /* pros/cons */
+    .pc{display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;line-height:1.65}
+    .ph{font-weight:600;margin-bottom:3px}
+    .pros .ph{color:var(--sf)}.cons .ph{color:var(--df)}
+    .pros p,.cons p{color:var(--t2)}
+    /* star */
+    .st{color:#e6a817}
+    /* allergy */
+    .alist{display:flex;flex-direction:column}
+    .arow{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:.5px solid var(--bd);font-size:13px}
+    .arow:last-child{border:none}
+    .chip{background:var(--bg2);border-radius:20px;padding:2px 9px;font-size:12px;color:var(--t2);white-space:nowrap;flex-shrink:0}
+    .an{margin-left:auto;font-size:12px;color:var(--t2)}
+    /* reject */
+    .rg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .ri{background:var(--bg2);border-radius:var(--rs);padding:9px 11px;font-size:13px}
+    .rn{font-weight:600;margin-bottom:3px}.rd{color:var(--t2)}
+    /* divider */
+    .dv{margin:1.4rem 0 1rem;border-top:.5px solid var(--bd);padding-top:1rem}
+    /* infobox */
+    .ib{background:var(--bg2);border-radius:var(--rs);padding:10px 13px;font-size:13px;color:var(--t2);margin-top:14px}
+    .ib strong{color:var(--t1)}
+    /* map items */
+    .ml{display:flex;flex-direction:column;gap:6px}
+    .mi{display:flex;align-items:flex-start;gap:10px;background:var(--bg1);border:.5px solid var(--bd);border-radius:var(--rs);padding:9px 12px;font-size:13px}
+    .mn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+    .mn1{background:var(--sg);color:var(--sf)}.mn2{background:var(--ig);color:var(--if)}.mnx{background:var(--bg3);color:var(--t2)}
+    .mname{font-weight:600}.maddr{color:var(--t2);font-size:12px;margin-top:1px}
+    @media(max-width:480px){
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .pc{grid-template-columns:1fr}
+      .rg{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h1>오늘 점심 추천</h1>
+  <p class="sub">서울 신도림 디큐브링크아트센터 주변 · 12명 · 비 예보 · 예산 최대 16,000원 · Google Places 기반</p>
+
+  <div class="sec">오늘 조건</div>
+  <div class="stats">
+    <div class="stat"><div class="l">인원</div><div class="v">12명</div></div>
+    <div class="stat"><div class="l">예산</div><div class="v">~16K</div></div>
+    <div class="stat"><div class="l">가용시간</div><div class="v">45분</div></div>
+    <div class="stat"><div class="l">도보</div><div class="v">≤10분</div></div>
+  </div>
+
+  <div class="sec">식당 평가 (구글 데이터 + 직원 취향 교차분석)</div>
+
+  <!-- 1순위: 신도림삼백가 -->
+  <div class="card c1">
+    <span class="tag t1"><i class="ti ti-trophy" style="font-size:12px"></i> 1순위 추천</span>
+    <div class="cn">신도림삼백가 <span style="font-size:13px;font-weight:400;color:var(--t2)">— 한식 · 보쌈·족발·칼국수</span></div>
+    <div class="cm">
+      <i class="ti ti-walk" style="font-size:13px;vertical-align:-2px"></i> 디큐브 내 도보 2분 &nbsp;·&nbsp;
+      <span class="st">★</span> 5.0 (234건) &nbsp;·&nbsp; 11:00~21:30 &nbsp;·&nbsp; ☎ 02-2633-3281
+    </div>
+    <div class="bars">
+      <div class="br"><span class="bl">선호도</span><div class="bb"><div class="bf fg" style="width:83%"></div></div><span class="bn">10/12명 부합</span></div>
+      <div class="br"><span class="bl">평점</span><div class="bb"><div class="bf fg" style="width:100%"></div></div><span class="bn">★5.0 완벽</span></div>
+      <div class="br"><span class="bl">시간</span><div class="bb"><div class="bf fg" style="width:80%"></div></div><span class="bn">빌딩 내 → 비 영향 없음</span></div>
+    </div>
+    <div class="bads">
+      <span class="b bg">구글 평점 5.0 — 지역 최고</span>
+      <span class="b bg">한식·국물 선호 다수 충족</span>
+      <span class="b bg">보쌈·칼국수 세트 — 계산서 가능 추정</span>
+      <span class="b bg">빌딩 내 위치 — 비 무관</span>
+      <span class="b bi">234건 리뷰 신뢰도 높음</span>
+      <span class="b ba">족발·보쌈 — 채식(송사원) 주의</span>
+    </div>
+    <div class="pc">
+      <div class="pros">
+        <div class="ph">잘 맞는 점</div>
+        <p>· 한식·국물 선호자 다수 만족 (김대리·오매니저·최부장·남PM·문대표)</p>
+        <p>· 칼국수 세트로 가벼운 식사 가능 (김대리 오후 회의 전)</p>
+        <p>· 빌딩 내 위치 → 비 예보 영향 0</p>
+        <p>· ★5.0, 234건 — 압도적 신뢰도</p>
+        <p>· 된장찌개·보쌈으로 유당 민감(오매니저) 안전</p>
+      </div>
+      <div class="cons">
+        <div class="ph">주의할 점</div>
+        <p>· 송사원(채식 지향) — 채소 사이드 위주 선택 필요</p>
+        <p>· 정사원(양식 선호) 만족도 낮을 수 있음</p>
+        <p>· 새우 포함 메뉴 여부 확인 (박선임 알러지)</p>
+        <p>· 계산서 발급 여부 사전 확인 권장</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2순위: 서울안심축산 디큐브시티점 -->
+  <div class="card c2">
+    <span class="tag t2">2순위</span>
+    <div class="cn">서울안심축산 신도림역디큐브시티점 <span style="font-size:13px;font-weight:400;color:var(--t2)">— 한식 · 고기구이</span></div>
+    <div class="cm">
+      <i class="ti ti-walk" style="font-size:13px;vertical-align:-2px"></i> 디큐브 내 도보 2분 &nbsp;·&nbsp;
+      <span class="st">★</span> 4.2 (87건) &nbsp;·&nbsp; 11:30~22:30 &nbsp;·&nbsp; 푸르지오 2층
+    </div>
+    <div class="bars">
+      <div class="br"><span class="bl">선호도</span><div class="bb"><div class="bf fg" style="width:72%"></div></div><span class="bn">8/12명 부합</span></div>
+      <div class="br"><span class="bl">평점</span><div class="bb"><div class="bf fg" style="width:84%"></div></div><span class="bn">★4.2</span></div>
+      <div class="br"><span class="bl">예산</span><div class="bb"><div class="bf fa" style="width:60%"></div></div><span class="bn">고기 세트 16K+ 가능</span></div>
+    </div>
+    <div class="bads">
+      <span class="b bg">최부장·강책임 고기 선호 충족</span>
+      <span class="b bg">빌딩 내 위치 — 비 무관</span>
+      <span class="b bg">제주 흑돼지 특색 메뉴</span>
+      <span class="b bi">서비스 직원이 직접 고기 구워줌</span>
+      <span class="b ba">일부 메뉴 예산 초과 가능</span>
+      <span class="b ba">리뷰 중 "가격 대비 부족" 언급</span>
+    </div>
+    <div class="pc">
+      <div class="pros">
+        <div class="ph">잘 맞는 점</div>
+        <p>· 최부장·강책임·이책임 고기 선호 완벽 충족</p>
+        <p>· 직원이 구워주는 방식 → 시간 절약</p>
+        <p>· 빌딩 내, 비 예보 무관</p>
+        <p>· 사이드 반찬 풍부 (리뷰)</p>
+      </div>
+      <div class="cons">
+        <div class="ph">주의할 점</div>
+        <p>· 세트 기준 16,000원 초과 우려</p>
+        <p>· 송사원(채식)·박선임(해산물 비선호) 대응 메뉴 제한</p>
+        <p>· "양 부족" 리뷰 일부 존재</p>
+        <p>· 계산서 여부 확인 필요</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3순위: 이도식당 (닭갈비) -->
+  <div class="card">
+    <span class="tag t3">3순위 (대안)</span>
+    <div class="cn">이도식당 신도림 <span style="font-size:13px;font-weight:400;color:var(--t2)">— 닭갈비 · 셀프 사이드바</span></div>
+    <div class="cm">
+      <i class="ti ti-walk" style="font-size:13px;vertical-align:-2px"></i> 디큐브 내 도보 2분 &nbsp;·&nbsp;
+      <span class="st">★</span> 3.8 (292건) &nbsp;·&nbsp; 11:00~22:00 &nbsp;·&nbsp; 푸르지오 2층 &nbsp;·&nbsp; ☎ 02-3439-7668
+    </div>
+    <div class="bads">
+      <span class="b bg">셀프 사이드바 — 채식(송사원) 대응</span>
+      <span class="b bg">빌딩 내 위치</span>
+      <span class="b bi">292건 리뷰 — 대중적 신뢰도</span>
+      <span class="b ba">닭갈비 매운맛 — 김대리·정사원·송사원 주의</span>
+      <span class="b ba">2인 이상 주문 필수</span>
+    </div>
+    <div class="pc">
+      <div class="pros">
+        <div class="ph">잘 맞는 점</div>
+        <p>· 셀프 사이드바 풍부 → 채식 지향(송사원) 야채 위주 가능</p>
+        <p>· 가격 합리적 (유대리 예산 중시)</p>
+        <p>· 빌딩 내, 비 무관</p>
+      </div>
+      <div class="cons">
+        <div class="ph">주의할 점</div>
+        <p>· 매운맛 조절 가능하나 김대리·송사원 주의</p>
+        <p>· 최부장·문대표(정갈한 한식 선호) 만족도 낮을 수 있음</p>
+        <p>· 계산서 여부 확인 필요</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 탈락 -->
+  <div class="dv">
+    <div class="sec">탈락 / 보류 식당</div>
+    <div class="rg">
+      <div class="ri"><div class="rn">Modol <span class="b ba">점심 영업 없음</span></div><div class="rd">오픈 16:00 — 점심 이용 불가 (KBBQ 전문)</div></div>
+      <div class="ri"><div class="rn">더족발 신도림본점 <span class="b ba">점심 영업 없음</span></div><div class="rd">오픈 11:30이나 저녁 중심 메뉴, 리뷰 혼잡 언급</div></div>
+      <div class="ri"><div class="rn">팔각도 신도림역점 <span class="b bd2">점심 미영업</span></div><div class="rd">평일 16:00 오픈 — 점심 이용 불가</div></div>
+      <div class="ri"><div class="rn">양은이네 신도림본점 <span class="b ba">도보 12분</span></div><div class="rd">공원로 위치 — 도보 12분+, 비 예보 시 부적합</div></div>
+      <div class="ri"><div class="rn">Dirty Fry <span class="b ba">만족도 제한</span></div><div class="rd">버거 전문, 한식 선호 다수 불만족 / 최근 부정 리뷰</div></div>
+      <div class="ri"><div class="rn">한수한식 <span class="b ba">정보 부족</span></div><div class="rd">리뷰 6건, 영업시간 미확인 — 12명 단체 불확실</div></div>
+    </div>
+  </div>
+
+  <!-- 알러지 체크 -->
+  <div class="dv">
+    <div class="sec">알러지·제약 체크 (신도림삼백가 기준)</div>
+    <div class="alist">
+      <div class="arow"><span class="chip">박선임</span><span style="color:var(--wf)"><i class="ti ti-alert-triangle" style="font-size:13px;vertical-align:-2px"></i> 새우 알러지</span><span class="an">보쌈·칼국수 세트 선택 — 새우류 포함 여부 확인 필수</span></div>
+      <div class="arow"><span class="chip">오매니저</span><span style="color:var(--wf)"><i class="ti ti-alert-triangle" style="font-size:13px;vertical-align:-2px"></i> 유당 민감</span><span class="an">보쌈·칼국수 → 치즈류 없어 안전</span></div>
+      <div class="arow"><span class="chip">송사원</span><span style="color:var(--if)"><i class="ti ti-leaf" style="font-size:13px;vertical-align:-2px"></i> 채식 지향</span><span class="an">칼국수·채소 사이드 위주 / 고기 메뉴 회피 가능</span></div>
+      <div class="arow"><span class="chip">남PM</span><span style="color:var(--sf)"><i class="ti ti-clock" style="font-size:13px;vertical-align:-2px"></i> 12:50 복귀</span><span class="an">디큐브 내 위치 → 이동 0분, 복귀 여유 충분</span></div>
+      <div class="arow"><span class="chip">문대표</span><span style="color:var(--if)"><i class="ti ti-user" style="font-size:13px;vertical-align:-2px"></i> 고객 동행 가능</span><span class="an">보쌈 세트 정갈한 구성 — 룸/단체석 여부 사전 확인 권장</span></div>
+    </div>
+  </div>
+
+  <!-- 위치 요약 -->
+  <div class="dv">
+    <div class="sec">식당 위치 요약 (모두 디큐브시티 푸르지오 건물 내)</div>
+    <div class="ml">
+      <div class="mi"><div class="mn mn1">1</div><div><div class="mname">신도림삼백가</div><div class="maddr">신도림동 337 118호 · ☎ 02-2633-3281 · 디큐브 내 도보 2분</div></div></div>
+      <div class="mi"><div class="mn mn2">2</div><div><div class="mname">서울안심축산 디큐브시티점</div><div class="maddr">경인로 661 푸르지오 2층 · 11:30 오픈 · 디큐브 내 도보 2분</div></div></div>
+      <div class="mi"><div class="mn mnx">3</div><div><div class="mname">이도식당 신도림</div><div class="maddr">경인로 661 푸르지오 2층 243호 · ☎ 02-3439-7668 · 디큐브 내 도보 2분</div></div></div>
+    </div>
+  </div>
+
+  <div class="ib">
+    <i class="ti ti-info-circle" style="font-size:14px;vertical-align:-2px;margin-right:4px"></i>
+    <strong>즉시 할 일:</strong> 신도림삼백가 ☎ 02-2633-3281 에 <strong>12명 단체석 + 계산서 발급 + 새우 포함 여부</strong> 확인
+    → 불가 시 서울안심축산 (11:30 오픈, 예산 확인 병행)
+  </div>
+</div>
+</body>
+</html>
